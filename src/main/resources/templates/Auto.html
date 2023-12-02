@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{auto.title}">Car sales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="#{auto.title}" class="mb-4">Car sales</h1>
+    <div class="card card-body bg-light">
+        <div class="mb-3">
+            <form action="/logout" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <button type="submit" class="btn btn-danger" th:text="#{logout}">Logout</button>
+            </form>
+        </div>
+        <form action="/save" method="post" th:object="${auto}">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <div class="form-group">
+                <label for="id" th:text="#{id.label}">ID:</label>
+                <input type="text" class="form-control" id="id" name="id" th:value="*{id}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Mark" th:text="#{Mark.label}">Mark:</label>
+                <input type="text" class="form-control" id="Mark" name="Mark" th:value="*{Mark}" required>
+            </div>
+            <div class="form-group">
+                <label for="Name" th:text="#{Name.label}">Name:</label>
+                <input type="text" class="form-control" id="Name" name="Name" th:value="*{Name}" required>
+            </div>
+            <div class="form-group">
+                <label for="Price" th:text="#{Price.label}">Price:</label>
+                <input type="text" class="form-control" id="Price" name="Price" th:value="*{Price}" required>
+            </div>
+            <div class="form-group">
+                <label for="Mileage" th:text="#{Mileage.label}">Mileage:</label>
+                <input type="text" class="form-control" id="Mileage" name="Mileage" th:value="*{Mileage}" required>
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{submit}">Submit</button>
+        </form>
+    </div>
+    <div class="mt-5">
+        <h2 th:text="#{Auto.Autos}">Autos</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{id}">ID</th>
+                <th th:text="#{Mark}">Mark</th>
+                <th th:text="#{Name}">Name</th>
+                <th th:text="#{Price}">Price</th>
+                <th th:text="#{Mileage}">Mileage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="auto : ${autos}">
+                <td th:text="${auto.id}">1</td>
+                <td th:text="${auto.Mark}">Ford</td>
+                <td th:text="${auto.Name}">Mustang</td>
+                <td th:text="${auto.Price}">100000</td>
+                <td th:text="${auto.Mileage}">20000</td>
+                <td>
+                    <a th:href="@{'/edit/' + ${auto.id}}" class="btn btn-success" th:text="#{edit}">Редактировать</a>
+                    <a th:href="@{'/delete/' + ${auto.id}}" class="btn btn-danger" th:text="#{delete}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
